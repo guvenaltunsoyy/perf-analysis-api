@@ -87,7 +87,7 @@ export default class Navigations {
                 $lte: endDate
             }
         };
-        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: -1});
+        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: 1});
     }
 
     public async getDOMNavigations(startDate?: Date, endDate?: Date) {
@@ -101,7 +101,7 @@ export default class Navigations {
                 $lte: endDate
             }
         };
-        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: -1});
+        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: 1});
     }
 
     public async getWindowNavigations(startDate?: Date, endDate?: Date) {
@@ -115,7 +115,7 @@ export default class Navigations {
                 $lte: endDate
             }
         };
-        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: -1});
+        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: 1});
     }
 
     public async getAllNavigationsTTFBs(startDate ?: Date, endDate ?: Date) {
@@ -129,7 +129,7 @@ export default class Navigations {
                 $lt: endDate
             }
         };
-        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: -1});
+        return await this.navigationModel.find(queryFilter, {}, {lean: true}).sort({createdAt: 1});
     }
 
     public async addNavigation(navigation: Navigation, callback: Function) {
