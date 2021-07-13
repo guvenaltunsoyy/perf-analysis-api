@@ -9,9 +9,7 @@ export const navigationController = async (req, res) => {
     const allNavigations = await Navigations.getInstance().getAllNavigations();
 
     res.status(statusCode.OK_200).send(
-        Response.success(allNavigations, {
-            link: "http://localhost:8080/v1/navigations",
-        })
+        Response.success(allNavigations)
     );
 };
 
@@ -29,14 +27,43 @@ export const addNavigationController = async (req, res) => {
             ttfb: responseStart - (requestStart || navigationStart || fetchStart),
             pageLoadTime: loadEventStart - (navigationStart ?? fetchStart),
         };
-        const addNav = await Navigations.getInstance().addNavigation(
+        const success = await Navigations.getInstance().addNavigation(
             _nav,
             (data) => data
         );
         res.status(statusCode.OK_200).send(
-            Response.success(addNav, {
-                link: "http://localhost:8080/v1/navigations/add",
-            })
+            Response.success({success})
+        );
+    } catch (err) {
+        res.status(statusCode.INTERNAL_SERVER_ERROR_500).send(
+            Response.error(
+                statusCode.INTERNAL_SERVER_ERROR_500,
+                "ERROR",
+                JSON.stringify(err)
+            )
+        );
+    }
+};
+export const addNavigationsController = async (req, res) => {
+    try {
+        const navigations: Navigation[] = req.body;
+        navigations.forEach(res => {
+            const {
+                responseStart,
+                navigationStart,
+                fetchStart,
+                loadEventStart = 0,
+                requestStart
+            } = res;
+            res.ttfb = responseStart - (requestStart || navigationStart || fetchStart);
+            res.pageLoadTime = loadEventStart - (navigationStart ?? fetchStart);
+        });
+        const success = await Navigations.getInstance().addNavigations(
+            navigations,
+            (data) => data
+        );
+        res.status(statusCode.OK_200).send(
+            Response.success({success})
         );
     } catch (err) {
         res.status(statusCode.INTERNAL_SERVER_ERROR_500).send(
@@ -53,9 +80,7 @@ export const resourceController = async (req, res) => {
     const allNavigations = await Resources.getInstance().getAllResources(startDate, endDate);
 
     res.status(statusCode.OK_200).send(
-        Response.success(allNavigations, {
-            link: "http://localhost:8080/v1/resources",
-        })
+        Response.success(allNavigations)
     );
 };
 
@@ -72,14 +97,41 @@ export const addResourceController = async (req, res) => {
             ...req.body,
             ttfb: responseStart - (requestStart || navigationStart || fetchStart || startTime),
         };
-        const addNav = await Resources.getInstance().addResource(
+        const success = await Resources.getInstance().addResource(
             _nav,
             (data) => data
         );
         res.status(statusCode.OK_200).send(
-            Response.success(addNav, {
-                link: "http://localhost:8080/v1/resources/add",
-            })
+            Response.success({success})
+        );
+    } catch (err) {
+        res.status(statusCode.INTERNAL_SERVER_ERROR_500).send(
+            Response.error(
+                statusCode.INTERNAL_SERVER_ERROR_500,
+                "ERROR",
+                JSON.stringify(err)
+            )
+        );
+    }
+};
+export const addResourcesController = async (req, res) => {
+    try {
+        const resources: Resource[] = req.body;
+        resources.forEach(res => {
+            const {
+                responseStart,
+                startTime,
+                fetchStart,
+                requestStart
+            } = res;
+            res.ttfb = responseStart - (requestStart || fetchStart || startTime);
+        });
+        const success = await Resources.getInstance().addResources(
+            resources,
+            (data) => data
+        );
+        res.status(statusCode.OK_200).send(
+            Response.success({success})
         );
     } catch (err) {
         res.status(statusCode.INTERNAL_SERVER_ERROR_500).send(
@@ -95,23 +147,39 @@ export const paintController = async (req, res) => {
     const {startDate, endDate} = req?.query;
     const allNavigations = await Paints.getInstance().getAllPaints(startDate, endDate);
     res.status(statusCode.OK_200).send(
-        Response.success(allNavigations, {
-            link: "http://localhost:8080/v1/paints",
-        })
+        Response.success(allNavigations)
     );
 };
 
 export const addPaintController = async (req, res) => {
     try {
         const _nav: Paint = {...req.body};
-        const addNav = await Paints.getInstance().addPaint(
+        const success = await Paints.getInstance().addPaint(
             _nav,
             (data) => data
         );
         res.status(statusCode.OK_200).send(
-            Response.success(addNav, {
-                link: "http://localhost:8080/v1/paints/add",
-            })
+            Response.success({success})
+        );
+    } catch (err) {
+        res.status(statusCode.INTERNAL_SERVER_ERROR_500).send(
+            Response.error(
+                statusCode.INTERNAL_SERVER_ERROR_500,
+                "ERROR",
+                JSON.stringify(err)
+            )
+        );
+    }
+};
+export const addPaintsController = async (req, res) => {
+    try {
+        const _nav: Paint[] = req.body;
+        const success = await Paints.getInstance().addPaints(
+            _nav,
+            (data) => data
+        );
+        res.status(statusCode.OK_200).send(
+            Response.success({success})
         );
     } catch (err) {
         res.status(statusCode.INTERNAL_SERVER_ERROR_500).send(
@@ -129,9 +197,7 @@ export const ttfbController = async (req, res) => {
     const allResources = await Resources.getInstance().getAllResourcesTTFBs();
     const allNavigations = await Navigations.getInstance().getAllNavigationsTTFBs(startDate, endDate);
     res.status(statusCode.OK_200).send(
-        Response.success([...allNavigations, ...allResources], {
-            link: "http://localhost:8080/v1/ttfb",
-        })
+        Response.success([...allNavigations, ...allResources])
     );
 };
 
@@ -139,17 +205,13 @@ export const domController = async (req, res) => {
     const {startDate, endDate} = req?.query;
     const allNavigations = await Navigations.getInstance().getDOMNavigations(startDate, endDate);
     res.status(statusCode.OK_200).send(
-        Response.success(allNavigations, {
-            link: "http://localhost:8080/v1/dom-events",
-        })
+        Response.success(allNavigations)
     );
 };
 export const windowLoadController = async (req, res) => {
     const {startDate, endDate} = req?.query;
     const allNavigations = await Navigations.getInstance().getWindowNavigations(startDate, endDate);
     res.status(statusCode.OK_200).send(
-        Response.success(allNavigations, {
-            link: "http://localhost:8080/v1/window-events",
-        })
+        Response.success(allNavigations)
     );
 };

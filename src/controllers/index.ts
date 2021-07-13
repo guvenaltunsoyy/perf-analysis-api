@@ -3,8 +3,11 @@ import pingController from "./ping";
 import pugController from "./pug";
 import {
     addNavigationController,
+    addNavigationsController,
     addPaintController,
+    addPaintsController,
     addResourceController,
+    addResourcesController,
     domController,
     navigationController,
     paintController,
@@ -19,10 +22,13 @@ export default {
     pugController,
     navigationController,
     addNavigationController,
+    addNavigationsController,
     resourceController,
     addResourceController,
+    addResourcesController,
     paintController,
     addPaintController,
+    addPaintsController,
     ttfbController,
     domController,
     windowLoadController

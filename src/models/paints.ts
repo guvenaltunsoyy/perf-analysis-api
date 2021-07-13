@@ -2,10 +2,10 @@ import { config, Connections, constants } from "../utils";
 import * as mongoose from "mongoose";
 
 export interface Paint {
-    name: { type: String; required: true };
-    entryType: { type: String };
-    startTime: { type: Number };
-    duration: { type: Number; required: false };
+    name: string;
+    entryType: string;
+    startTime: number;
+    duration: number;
 }
 
 export default class Paints {
@@ -61,6 +61,14 @@ export default class Paints {
             if (err) throw err;
             return callback(data);
         });
-        return _nav;
+        return true;
+    }
+
+    public async addPaints(paints: Paint[], callback: Function) {
+        this.paintModel.insertMany(paints, function (err, data) {
+            if (err) throw err;
+            return callback(data);
+        });
+        return true;
     }
 }

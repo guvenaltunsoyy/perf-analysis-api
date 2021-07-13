@@ -91,6 +91,14 @@ export default class Resources {
             if (err) throw err;
             return callback(data);
         });
-        return _nav;
+        return true;
+    }
+
+    public async addResources(resources: Resource[], callback: Function) {
+        this.resourceModel.insertMany(resources, function (err, data) {
+            if (err) throw err;
+            return callback(data);
+        });
+        return true;
     }
 }

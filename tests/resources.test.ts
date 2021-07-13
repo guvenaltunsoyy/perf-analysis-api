@@ -68,6 +68,6 @@ describe("resource case", () => {
         // @ts-ignore
         const res = await Resources.getInstance().addResource(resource, console.log);
         jest.useFakeTimers();
-        expect(res).toHaveProperty("_id");
+        expect(res).toEqual(true);
     });
 });

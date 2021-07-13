@@ -2,28 +2,28 @@ import { config, Connections, constants } from "../utils";
 import * as mongoose from "mongoose";
 
 export interface Navigation {
-    name: { type: String; required: true };
-    responseStart: { type: Number; required: true };
-    responseEnd: { type: Number; required: true };
-    fetchStart: { type: Number; required: true };
-    navigationStart: { type: Number; required: false };
-    initiatorType: { type: String };
-    type: { type: String };
-    connectStart: { type: Number; required: false };
-    connectEnd: { type: Number; required: false };
-    domComplete: { type: Number; required: false };
-    domContentLoadedEventEnd: { type: Number; required: false };
-    domContentLoadedEventStart: { type: Number; required: false };
-    loadEventEnd: { type: Number; required: false };
-    loadEventStart: { type: Number; required: false };
-    duration: { type: Number; required: false };
-    requestStart: { type: Number; required: false };
-    requestEnd: { type: Number; required: false };
-    unloadEventEnd: { type: Number; required: false };
-    unloadEventStart: { type: Number; required: false };
-    ttfb: { type: Number; required: false };
-    domInteractive: { type: Number; required: false };
-    pageLoadTime: { type: Number };
+    name: string;
+    responseStart: number;
+    responseEnd: number;
+    fetchStart: number;
+    navigationStart: number;
+    initiatorType: string;
+    type: string;
+    connectStart: number;
+    connectEnd: number;
+    domComplete: number;
+    domContentLoadedEventEnd: number;
+    domContentLoadedEventStart: number;
+    loadEventEnd: number;
+    loadEventStart: number;
+    duration: number;
+    requestStart: number;
+    requestEnd: number;
+    unloadEventEnd: number;
+    unloadEventStart: number;
+    ttfb: number;
+    domInteractive: number;
+    pageLoadTime: number;
 }
 
 export default class Navigations {
@@ -138,6 +138,14 @@ export default class Navigations {
             if (err) throw err;
             return callback(data);
         });
-        return _nav;
+        return true;
+    }
+
+    public async addNavigations(navigations: Navigation[], callback: Function) {
+        this.navigationModel.insertMany(navigations, function (err, data) {
+            if (err) throw err;
+            return callback(data);
+        });
+        return true;
     }
 }
