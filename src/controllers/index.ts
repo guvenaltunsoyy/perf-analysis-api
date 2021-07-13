@@ -10,7 +10,6 @@ import {
     paintController,
     resourceController,
     ttfbController,
-    userController,
     windowLoadController
 } from "./mongo";
 
@@ -18,7 +17,6 @@ export default {
     defaultController,
     pingController,
     pugController,
-    userController,
     navigationController,
     addNavigationController,
     resourceController,

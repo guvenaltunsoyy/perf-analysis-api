@@ -1,19 +1,9 @@
 import { Response, statusCode } from "../utils";
 
-import Users from "../models/users";
 import Navigations, { Navigation } from "../models/navigations";
 import Resources, { Resource } from "../models/resource";
 import Paints, { Paint } from "../models/paints";
 
-export const userController = async (req, res) => {
-    const allUsers = await Users.getInstance().getAllUsers();
-
-    res.status(statusCode.OK_200).send(
-        Response.success(allUsers, {
-            link: "http://localhost:8080/v1/users",
-        })
-    );
-};
 
 export const navigationController = async (req, res) => {
     const allNavigations = await Navigations.getInstance().getAllNavigations();
@@ -43,7 +33,6 @@ export const addNavigationController = async (req, res) => {
             _nav,
             (data) => data
         );
-        console.log(`${addNav?.initiatorType} ${addNav._id}: added`);
         res.status(statusCode.OK_200).send(
             Response.success(addNav, {
                 link: "http://localhost:8080/v1/navigations/add",
@@ -87,7 +76,6 @@ export const addResourceController = async (req, res) => {
             _nav,
             (data) => data
         );
-        console.log(`${addNav?.initiatorType} ${addNav._id}: added`);
         res.status(statusCode.OK_200).send(
             Response.success(addNav, {
                 link: "http://localhost:8080/v1/resources/add",
@@ -106,7 +94,6 @@ export const addResourceController = async (req, res) => {
 export const paintController = async (req, res) => {
     const {startDate, endDate} = req?.query;
     const allNavigations = await Paints.getInstance().getAllPaints(startDate, endDate);
-
     res.status(statusCode.OK_200).send(
         Response.success(allNavigations, {
             link: "http://localhost:8080/v1/paints",
@@ -121,7 +108,6 @@ export const addPaintController = async (req, res) => {
             _nav,
             (data) => data
         );
-        console.log(`${addNav?.name} ${addNav._id}: added`);
         res.status(statusCode.OK_200).send(
             Response.success(addNav, {
                 link: "http://localhost:8080/v1/paints/add",

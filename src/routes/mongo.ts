@@ -3,7 +3,6 @@ import controller from "../controllers";
 
 const router = express.Router();
 
-router.get("/v1/users", controller.userController);
 router.get("/v1/navigations", controller.navigationController);
 router.post("/v1/navigations/add", controller.addNavigationController);
 router.get("/v1/resources", controller.resourceController);
