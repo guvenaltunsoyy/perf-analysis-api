@@ -1,9 +1,9 @@
 import * as mongoose from "mongoose";
-import * as EventEmitter from "events";
 import * as util from "util";
 
 import constants from "./utils/constants";
 import { logger } from "../../src/utils";
+import { EventEmitter } from "events";
 
 export default class Mongo extends EventEmitter {
     connection;

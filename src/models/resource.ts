@@ -2,19 +2,19 @@ import { config, Connections, constants } from "../utils";
 import * as mongoose from "mongoose";
 
 export interface Resource {
-    name: { type: String; required: true };
-    responseStart: { type: Number; required: true };
-    responseEnd: { type: Number; required: true };
-    fetchStart: { type: Number; required: true };
-    initiatorType: { type: String };
-    entryType: { type: String };
-    connectStart: { type: Number; required: false };
-    connectEnd: { type: Number; required: false };
-    duration: { type: Number; required: false };
-    requestStart: { type: Number; required: false };
-    requestEnd: { type: Number; required: false };
-    startTime: { type: Number; required: false };
-    ttfb: { type: Number };
+    name: string;
+    responseStart: number;
+    responseEnd: number;
+    fetchStart: number;
+    initiatorType: string;
+    entryType: string;
+    connectStart: number;
+    connectEnd: number;
+    duration: number;
+    requestStart: number;
+    requestEnd: number;
+    startTime: number;
+    ttfb: number;
 
 }
 
