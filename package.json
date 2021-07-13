@@ -43,10 +43,7 @@
         "pug": "^3.0.0",
         "ts-jest": "^27.0.3",
         "tyboost": "^2.0.0",
-        "winston": "^3.2.1",
-        "gulp": "^4.0.2",
-        "gulp-tslint": "^8.1.4",
-        "gulp-typescript": "^5.0.1"
+        "winston": "^3.2.1"
     },
     "devDependencies": {
         "@babel/core": "^7.14.6",
@@ -56,6 +53,9 @@
         "babel-jest": "^27.0.6",
         "concurrently": "^4.1.0",
         "del": "^4.1.1",
+        "gulp": "^4.0.2",
+        "gulp-tslint": "^8.1.4",
+        "gulp-typescript": "^5.0.1",
         "husky": "^2.3.0",
         "jest": "^27.0.6",
         "nodemon": "^1.19.1",
