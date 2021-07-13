@@ -10,7 +10,7 @@
         "start": "npm run server",
         "server": "node build/src/server.js",
         "watch-node": "nodemon build/src/server.js",
-        "build": "rm -r node_modules && npm install && npm run gulp-tslint & npm run gulp-build",
+        "build": "npm run gulp-tslint & npm run gulp-build",
         "gulp-build": "gulp build",
         "gulp-watch": "gulp watch",
         "gulp-tslint": "gulp tslint",
