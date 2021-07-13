@@ -1,6 +1,6 @@
 {
     "name": "express-microservice-boilerplate",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "An express-based bootstrapping module for building microservices with Node JS.",
     "main": "server.js",
     "scripts": {
