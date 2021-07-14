@@ -1,7 +1,9 @@
 import createConnection from "./mongoMock.js";
 import Paints from "../src/models/paints";
+import { diffMinutes, halfHourAgo, now, oneHourAgo, tenMinutesAgo } from "./utils";
 
 describe("paints case", () => {
+    const _now = now();
     beforeEach(async () => {
         await createConnection();
     });
@@ -11,50 +13,50 @@ describe("paints case", () => {
 
     });
     it("should return last one hour events", async () => {
-        const now = new Date();
         // @ts-ignore
-        const res = await Paints.getInstance().getAllPaints(new Date(now - 3600000), now);
+        const res = await Paints.getInstance().getAllPaints(oneHourAgo(), _now);
         res.forEach(e => {
+            const diff = diffMinutes(e.createdAt, _now);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeGreaterThanOrEqual(360000);
+            expect(diff).toBeGreaterThanOrEqual(0);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeLessThanOrEqual(now.getTime());
+            expect(diff).toBeLessThanOrEqual(60);
         });
     });
     it("should return last 30 minutes events", async () => {
-        const now = new Date();
         // @ts-ignore
-        const res = await Paints.getInstance().getAllPaints(new Date(now - 1800000), now);
+        const res = await Paints.getInstance().getAllPaints(halfHourAgo(), _now);
         res.forEach(e => {
+            const diff = diffMinutes(e.createdAt, _now);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeGreaterThanOrEqual(180000);
+            expect(diff).toBeGreaterThanOrEqual(0);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeLessThanOrEqual(now.getTime());
+            expect(diff).toBeLessThanOrEqual(30);
         });
     });
     it("should return last 10 minutes events", async () => {
-        const now = new Date();
         // @ts-ignore
-        const res = await Paints.getInstance().getAllPaints(new Date(now - 900000), now);
+        const res = await Paints.getInstance().getAllPaints(tenMinutesAgo(), _now);
         res.forEach(e => {
+            const diff = diffMinutes(e.createdAt, _now);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeGreaterThanOrEqual(90000);
+            expect(diff).toBeGreaterThanOrEqual(0);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeLessThanOrEqual(now.getTime());
+            expect(diff).toBeLessThanOrEqual(10);
         });
     });
     it("should return between specifics dates events", async () => {
-        const now = new Date();
         // @ts-ignore
         const sDate = new Date() - 5000, eDate = new Date() - 4000;
 
         // @ts-ignore
         const res = await Paints.getInstance().getAllPaints(new Date(sDate), new Date(eDate));
         res.forEach(e => {
+            const diff = diffMinutes(e.createdAt, new Date(eDate));
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeLessThanOrEqual(4000);
+            expect(diff).toBeLessThanOrEqual(4000);
             // @ts-ignore
-            expect(now - e.createdAt?.getTime()).toBeGreaterThanOrEqual(5000);
+            expect(diff).toBeGreaterThanOrEqual(5000);
         });
     });
 });
