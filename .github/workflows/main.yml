@@ -10,7 +10,7 @@ on:
     - master
   pull_request:
     branches:
-    - masteer
+    - master
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -26,9 +26,17 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run tests
+      - name: Run Test
         run: |
           npm install
           npm run test
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "perf-analysis-api" #Must be unique in Heroku
+          heroku_email: "gven.altunsoy@gmail.com"
+          usedocker: true
+          docker_build_args: |
+            NODE_ENV
+        env:
+          NODE_ENV: production
