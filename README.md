@@ -20,6 +20,7 @@ You will need the following things properly installed on your computer.
 
 * `npm run dev`
 
-#### CI/CD
+## CI/CD
+
 Github Actions
 Triggers the workflow on push or pull request events for the master branch. Running test then deploying to heroku
