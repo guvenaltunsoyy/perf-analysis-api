@@ -1,18 +1,23 @@
-import createConnection from "./mongoMock.js";
 import Resources from "../src/models/resource";
 import { diffMinutes, halfHourAgo, now, oneHourAgo, tenMinutesAgo } from "./utils";
+import createConnection from "./mongoMock.js";
 
+let connection;
 describe("resource case", () => {
     const _now = now();
-    beforeEach(async () => {
-        await createConnection();
+    beforeAll(async () => {
+        connection = await createConnection();
     });
-    it("should return empty array", async () => {
+    afterAll((done) => {
+        connection.close();
+        done();
+    });
+    test("should return empty array", async () => {
         const res = await Resources.getInstance().getAllResourcesTTFBs();
         expect(res).toEqual([]);
 
     });
-    it("should return last one hour events", async () => {
+    test("should return last one hour events", async () => {
         // @ts-ignore
         const res = await Resources.getInstance().getAllResourcesTTFBs(oneHourAgo(), _now);
         res.forEach(e => {
@@ -23,7 +28,7 @@ describe("resource case", () => {
             expect(diff).toBeLessThanOrEqual(60);
         });
     });
-    it("should return last 30 minutes events", async () => {
+    test("should return last 30 minutes events", async () => {
         // @ts-ignore
         const res = await Resources.getInstance().getAllResourcesTTFBs(halfHourAgo(), _now);
         res.forEach(e => {
@@ -34,7 +39,7 @@ describe("resource case", () => {
             expect(diff).toBeLessThanOrEqual(30);
         });
     });
-    it("should return last 10 minutes events", async () => {
+    test("should return last 10 minutes events", async () => {
         // @ts-ignore
         const res = await Resources.getInstance().getAllResourcesTTFBs(tenMinutesAgo(), _now);
         res.forEach(e => {
@@ -45,7 +50,7 @@ describe("resource case", () => {
             expect(diff).toBeLessThanOrEqual(10);
         });
     });
-    it("should return between specifics dates events", async () => {
+    test("should return between specifics dates events", async () => {
         // @ts-ignore
         const sDate = new Date() - 5000, eDate = new Date() - 4000;
         // @ts-ignore
@@ -58,7 +63,7 @@ describe("resource case", () => {
             expect(diff).toBeGreaterThanOrEqual(5000);
         });
     });
-    it("add new resource", async () => {
+    test("add new resource", async () => {
         const resource = {
             name: "test",
             responseStart: 0,

@@ -7,10 +7,13 @@ import { EventEmitter } from "events";
 
 export default class Mongo extends EventEmitter {
     connection;
-    URI: string;
+    URI: string | undefined;
 
-    constructor(config) {
+    constructor() {
         super();
+    }
+
+    initializeDriver(config) {
         this.URI = util.format(
             "mongodb+srv://%s/%s",
             config.hosts,
@@ -24,7 +27,6 @@ export default class Mongo extends EventEmitter {
             useUnifiedTopology: true,
             useNewUrlParser: true,
             poolSize: config.connectionLimit ? config.connectionLimit : 5,
-            reconnectTries: Number.MAX_VALUE,
             auto_reconnect: true,
             noDelay: true,
             keepAlive: true,
@@ -56,7 +58,7 @@ export default class Mongo extends EventEmitter {
                     this.emit(constants.EventEnums.CONNECTION_ERROR.toString());
                 } else {
                     logger.info(
-                        `MONGO_CONNECTOR :: Successfully connected to MongoDB database ${this.URI}`
+                        `MONGO_CONNECTOR :: createConnection Successfully connected to MongoDB database ${this.URI}`
                     );
                     this.emit(
                         constants.EventEnums.CONNECTION_SUCCESS.toString(),
@@ -65,9 +67,6 @@ export default class Mongo extends EventEmitter {
                 }
             }
         );
-    }
-
-    initializeDriver() {
         const _this = this;
         return new Promise((resolve, reject) => {
             this.connection.on("open", function () {
@@ -99,10 +98,20 @@ export default class Mongo extends EventEmitter {
                     error
                 );
             });
+            _this.connection.on("disconnecting", function (error) {
+                logger.warning(
+                    `MONGO_CONNECTOR :: Connection disconnecting in mongodb ${error}`
+                );
+                _this.emit(
+                    constants.EventEnums.CONNECTION_END.toString(),
+                    error
+                );
+            });
         });
     }
 
     getMongoInstance() {
         return this.connection;
     }
+
 }

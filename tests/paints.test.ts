@@ -2,17 +2,22 @@ import createConnection from "./mongoMock.js";
 import Paints from "../src/models/paints";
 import { diffMinutes, halfHourAgo, now, oneHourAgo, tenMinutesAgo } from "./utils";
 
-describe("paints case", () => {
+let connection;
+describe("paint case", () => {
     const _now = now();
-    beforeEach(async () => {
-        await createConnection();
+    beforeAll(async () => {
+        connection = await createConnection();
     });
-    it("should return empty array", async () => {
+    afterAll((done) => {
+        connection.close();
+        done();
+    });
+    test("should return empty array", async () => {
         const res = await Paints.getInstance().getAllPaints();
         expect(res).toEqual([]);
 
     });
-    it("should return last one hour events", async () => {
+    test("should return last one hour events", async () => {
         // @ts-ignore
         const res = await Paints.getInstance().getAllPaints(oneHourAgo(), _now);
         res.forEach(e => {
@@ -23,7 +28,7 @@ describe("paints case", () => {
             expect(diff).toBeLessThanOrEqual(60);
         });
     });
-    it("should return last 30 minutes events", async () => {
+    test("should return last 30 minutes events", async () => {
         // @ts-ignore
         const res = await Paints.getInstance().getAllPaints(halfHourAgo(), _now);
         res.forEach(e => {
@@ -34,7 +39,7 @@ describe("paints case", () => {
             expect(diff).toBeLessThanOrEqual(30);
         });
     });
-    it("should return last 10 minutes events", async () => {
+    test("should return last 10 minutes events", async () => {
         // @ts-ignore
         const res = await Paints.getInstance().getAllPaints(tenMinutesAgo(), _now);
         res.forEach(e => {
@@ -45,7 +50,7 @@ describe("paints case", () => {
             expect(diff).toBeLessThanOrEqual(10);
         });
     });
-    it("should return between specifics dates events", async () => {
+    test("should return between specifics dates events", async () => {
         // @ts-ignore
         const sDate = new Date() - 5000, eDate = new Date() - 4000;
 

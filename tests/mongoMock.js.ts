@@ -12,4 +12,12 @@ export default async function createConnection() {
         database: "perf_analysis"
     });
     Connections.set(constants.CONNECTIONS.MONGO, mongoClient);
+    return mongoClient;
+}
+
+export function closeConnection() {
+    if (Connections.get(constants.CONNECTIONS.MONGO)) {
+        const connection = Connections.get(constants.CONNECTIONS.MONGO);
+        connection.close();
+    }
 }
