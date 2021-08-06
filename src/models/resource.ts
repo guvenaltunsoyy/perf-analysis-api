@@ -41,18 +41,18 @@ export default class Resources {
         const Schema = mongoose.Schema;
         const bodDetailsSchema = new Schema<Resource>(
             {
-                name: {type: String, required: true},
-                responseStart: {type: Number, required: true},
-                responseEnd: {type: Number, required: true},
-                fetchStart: {type: Number, required: true},
+                name: {type: String, },
+                responseStart: {type: Number, },
+                responseEnd: {type: Number, },
+                fetchStart: {type: Number, },
                 initiatorType: {type: String},
                 entryType: {type: String},
-                connectStart: {type: Number, required: false},
-                connectEnd: {type: Number, required: false},
-                duration: {type: Number, required: false},
-                requestStart: {type: Number, required: false},
-                requestEnd: {type: Number, required: false},
-                startTime: {type: Number, required: false},
+                connectStart: {type: Number},
+                connectEnd: {type: Number},
+                duration: {type: Number},
+                requestStart: {type: Number},
+                requestEnd: {type: Number},
+                startTime: {type: Number},
                 ttfb: {type: Number},
 
             },

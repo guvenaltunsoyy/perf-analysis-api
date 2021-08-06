@@ -5,7 +5,7 @@
  * // TODO : add json.api implementation for node js specified at https://jsonapi.org/implementations/#server-libraries-node-js
  */
 class Response {
-    public static success(data: object, meta?: object): object {
+    public static success(data: object, meta?: object): object | string {
         const  successResponseObject: object = {};
 
         // add data
@@ -18,7 +18,7 @@ class Response {
             };
         }
 
-        return successResponseObject;
+        return JSON.stringify(successResponseObject);
     }
 
     public static error(code: number, title: string, detail: string, optionals?: object): object {

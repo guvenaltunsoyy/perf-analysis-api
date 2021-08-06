@@ -31,12 +31,12 @@ export default class Paints {
         const Schema = mongoose.Schema;
         const bodDetailsSchema = new Schema<Paint>(
             {
-                name: {type: String, required: true},
-                entryType: {type: String},
-                startTime: {type: Number},
-                duration: {type: Number},
+                name: { type: String },
+                entryType: { type: String },
+                startTime: { type: Number },
+                duration: { type: Number },
             },
-            {timestamps: true}
+            { timestamps: true }
         );
         this.paintModel = mongoConnection.model(
             this.collectionName,
@@ -46,13 +46,13 @@ export default class Paints {
 
     public async getAllPaints(startDate?: Date, endDate?: Date) {
         const queryFilter = {
-            name: {$eq: "first-contentful-paint"},
+            name: { $eq: "first-contentful-paint" },
             createdAt: {
                 $gte: startDate,
-                $lte: endDate
-            }
+                $lte: endDate,
+            },
         };
-        return await this.paintModel.find(queryFilter, {}, {lean: true});
+        return await this.paintModel.find(queryFilter, {}, { lean: true });
     }
 
     public async addPaint(paint: Paint, callback: Function) {
