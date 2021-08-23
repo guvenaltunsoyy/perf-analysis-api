@@ -25,9 +25,12 @@ const registerCoreMiddleware = function (): void {
         app.use(bodyParser.urlencoded({ extended: true }));
 
         logger.info(`BOOT :: Registered middleware : bodyParser`);
-
-        app.use(cors());
-        app.options("*", cors());
+        const corsConfig = {
+            credentials: true,
+            origin: true,
+        };
+        app.use(cors(corsConfig));
+        // app.options("*", cors());
         logger.info(`BOOT :: Registered middleware : cors(*)`);
 
 

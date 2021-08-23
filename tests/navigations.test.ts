@@ -68,7 +68,7 @@ describe("navigations case", () => {
         // @ts-ignore
         const res = await Navigations.getInstance().getDOMNavigations(new Date(0), _now);
         res.forEach(e => {
-            expect(["DomContentLoad", "readystatechange"]).toContain(e.initiatorType);
+            expect(["DomContentLoad", "readystatechange, DomContentLoaded", "readystatechange interactive", "readystatechange complete"]).toContain(e.initiatorType);
         });
     });
     test("should return just windowLoad events", async () => {

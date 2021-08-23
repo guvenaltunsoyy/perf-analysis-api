@@ -94,7 +94,7 @@ export default class Navigations {
         const queryFilter = {
             ttfb: {$gt: 0},
             initiatorType: {
-                $in: ["DomContentLoad", "readystatechange"]
+                $in: ["DomContentLoaded", "DomContentLoad", "readystatechange interactive", "readystatechange complete"]
             },
             createdAt: {
                 $gte: startDate,

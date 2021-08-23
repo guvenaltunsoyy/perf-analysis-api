@@ -18,9 +18,9 @@ export const addNavigationController = async (req, res) => {
             fetchStart,
             loadEventStart = 0,
             requestStart,
-        } = JSON.parse(req.body);
+        } = req.body;
         const _nav: Navigation = {
-            ...JSON.parse(req.body),
+            ...req.body,
             ttfb:
                 responseStart - (requestStart || navigationStart || fetchStart),
             pageLoadTime: loadEventStart - (navigationStart ?? fetchStart),
@@ -42,7 +42,7 @@ export const addNavigationController = async (req, res) => {
 };
 export const addNavigationsController = async (req, res) => {
     try {
-        const navigations: Navigation[] = JSON.parse(req.body);
+        const navigations: Navigation[] = req.body;
         navigations.forEach((res) => {
             const {
                 responseStart,
@@ -88,9 +88,9 @@ export const addResourceController = async (req, res) => {
             startTime,
             fetchStart,
             requestStart,
-        } = JSON.parse(req.body);
+        } = req.body;
         const _nav: Resource = {
-            ...JSON.parse(req.body),
+            ...req.body,
             ttfb:
                 responseStart -
                 (requestStart || navigationStart || fetchStart || startTime),
@@ -112,7 +112,7 @@ export const addResourceController = async (req, res) => {
 };
 export const addResourcesController = async (req, res) => {
     try {
-        const resources: Resource[] = JSON.parse(req.body);
+        const resources: Resource[] = req.body;
         resources.forEach((res) => {
             const { responseStart, startTime, fetchStart, requestStart } = res;
             res.ttfb =
@@ -144,7 +144,7 @@ export const paintController = async (req, res) => {
 
 export const addPaintController = async (req, res) => {
     try {
-        const _nav: Paint = { ...JSON.parse(req.body) };
+        const _nav: Paint = { ...req.body };
         const success = await Paints.getInstance().addPaint(
             _nav,
             (data) => data
@@ -162,7 +162,7 @@ export const addPaintController = async (req, res) => {
 };
 export const addPaintsController = async (req, res) => {
     try {
-        const _nav: Paint[] = JSON.parse(req.body);
+        const _nav: Paint[] = req.body;
         const success = await Paints.getInstance().addPaints(
             _nav,
             (data) => data
